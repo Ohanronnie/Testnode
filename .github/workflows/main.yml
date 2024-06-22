@@ -1,0 +1,35 @@
+name: Build Node.js Application
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install pkg
+
+      - name: Build application
+        run: npx pkg index.js --targets node14-linux-x64 --output myapp
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: myapp
+          path: myapp
+          
